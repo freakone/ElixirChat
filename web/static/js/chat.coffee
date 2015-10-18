@@ -1,14 +1,21 @@
-phoenix = require "deps/phoenix/web/static/js/phoenix"
+require("angular")
 
+app = angular.module 'chat', []
 
-socket = new phoenix.Socket("/socket", {params: {token: window.userToken}})
-socket.connect()
+app.controller "ChatController", ($scope) ->
 
-channel = socket.channel("chat", {})
-join = channel.join()
-join.receive("ok", (resp) -> 
-    console.log("yeap", resp))
-join.receive("error", (resp) -> 
-    console.log("nope", resp))
-channel.on("msg", (msg) ->
-    console.log(msg))
+    $scope.msg = "blah"
+
+    phoenix = require "deps/phoenix/web/static/js/phoenix"
+
+    socket = new phoenix.Socket("/socket", {params: {token: window.userToken}})
+    socket.connect()
+
+    channel = socket.channel("chat", {})
+    join = channel.join()
+    join.receive("ok", (resp) -> 
+        console.log("yeap", resp))
+    join.receive("error", (resp) -> 
+        console.log("nope", resp))
+    channel.on("msg", (msg) ->
+        console.log(msg))
