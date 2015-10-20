@@ -19,6 +19,14 @@ defmodule ElixirChat.Router do
     get "/", PageController, :index
   end
 
+  scope "/auth", ElixirChat do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :index
+    get "/:provider/callback", AuthController, :callback
+    get "/logout", AuthController, :logout
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ElixirChat do
   #   pipe_through :api
