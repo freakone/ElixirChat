@@ -10,8 +10,8 @@ defmodule ElixirChat.AuthController do
     token = get_token!(provider, code)
     user = get_user!(provider, token)
 
-    if token.expires do
-
+    if token.expires? do
+        IO.inspect(user)
     else
 
     end

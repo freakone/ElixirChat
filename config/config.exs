@@ -5,6 +5,14 @@
 # is restricted to this project.
 use Mix.Config
 
+config :elixir_chat, ElixirChat.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "elixir_chat_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
+
 # Configures the endpoint
 config :elixir_chat, ElixirChat.Endpoint,
   url: [host: "localhost"],
