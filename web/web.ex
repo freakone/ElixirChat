@@ -48,6 +48,8 @@ defmodule ElixirChat.Web do
       use Phoenix.HTML
 
       import ElixirChat.Router.Helpers
+
+      import ElixirChat.AuthController, only: [current_user: 1, logged_in?: 1]
     end
   end
 

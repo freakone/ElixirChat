@@ -30,13 +30,15 @@ defmodule ElixirChat.User do
                     provider: prov}
 
     if user_db do
-      existing_user = User.changeset(user_db, user_map)
-      if existing_user.valid?, do: Repo.update(existing_user)
+      user_db = User.changeset(user_db, user_map)
+      if user_db.valid?, do: Repo.update(user_db)
     else
-      new_user = User.changeset(%User{}, user_map)
-      if new_user.valid?, do: Repo.insert(new_user)
+      user_db = User.changeset(%User{}, user_map)
+      if user_db.valid?, do: Repo.insert(user_db)
     end   
 
+    user_db
+    
   end 
   @doc """
   Creates a changeset based on the `model` and `params`.

@@ -27,8 +27,4 @@ defmodule ElixirChat.Router do
     get "/logout", AuthController, :logout
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ElixirChat do
-  #   pipe_through :api
-  # end
 end

@@ -11,6 +11,16 @@ html lang="en"  ng-app="chat"
       ul.nav.navbar-nav.pull-right
         li
           a href="http://www.phoenixframework.org/docs"  Get Started
+        = if logged_in?(@conn) do
+          li        
+            img src="#{current_user(@conn).image}"
+          li
+            a href="/auth/singout" Signed in as #{current_user(@conn).name}
+        - else
+          li 
+            a href="/auth/facebook" Login with Facebook
+
+
     = @inner
     script src=static_path(@conn,"/js/app.js")
     script require("web/static/js/app")
