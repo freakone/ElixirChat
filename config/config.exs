@@ -37,4 +37,4 @@ config :phoenix, :generators,
   binary_id: false
 
 config :phoenix, :template_engines,
-    slim: PhoenixSlim.Engine
+  slim: PhoenixSlim.Engine

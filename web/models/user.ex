@@ -5,28 +5,39 @@ defmodule ElixirChat.User do
 
   schema "users" do
     field :name, :string
-    field :fb_id, :integer
-    field :fb_img, :string
-    field :fb_mail, :string
-
+    field :uid, :integer
+    field :image, :string
+    field :email, :string
+    field :oauth_token, :string
+    field :oauth_expires_at, :integer
+    field :provider, :string
     has_many :messages, ElixirChat.Message
 
     timestamps
   end
 
-  @required_fields ~w(name fb_id fb_img fb_mail)
-  @optional_fields ~w()
+  @required_fields ~w(name uid oauth_token oauth_expires_at provider)
+  @optional_fields ~w(image email)
 
-  def add_user(user_params) do
+  def oauth(user, token, prov) do
 
-    Repo.get_by!(User, fb_id: user_params[:fb_id])
-    changeset = User.changeset(%User{}, Map.put(user_params))
+    user_db = Repo.get_by(User, uid: user.id, provider: prov)
 
-    if changeset.valid? do
-      Repo.insert(changeset)
+    user_map = %{name: user.name, uid: String.to_integer(user.id),
+                    image: user.picture["data"]["url"], email: user.email, 
+                    oauth_token: token.access_token, 
+                    oauth_expires_at: token.expires_at,
+                    provider: prov}
 
-    end
-  end
+    if user_db do
+      existing_user = User.changeset(user_db, user_map)
+      if existing_user.valid?, do: Repo.update(existing_user)
+    else
+      new_user = User.changeset(%User{}, user_map)
+      if new_user.valid?, do: Repo.insert(new_user)
+    end   
+
+  end 
   @doc """
   Creates a changeset based on the `model` and `params`.
 
