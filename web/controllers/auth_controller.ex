@@ -10,6 +10,13 @@ defmodule ElixirChat.AuthController do
 
   def logged_in?(conn), do: !!current_user(conn)
 
+  def logout(conn, %{}) do
+    conn
+    |> delete_session(:current_user)
+    |> put_flash(:info, "Logged out")
+    |> redirect(to: "/")
+  end
+
   def index(conn, %{"provider" => provider}) do
     redirect conn, external: authorize_url!(provider)
   end
@@ -26,7 +33,8 @@ defmodule ElixirChat.AuthController do
         |> redirect(to: "/")
     else
         conn
-        |> redirect(to: "/login-error")
+        |> put_flash(:error, "You are not able to log in")
+        |> redirect(to: "/")
     end
 
   end

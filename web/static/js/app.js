@@ -12,4 +12,5 @@
 // If you no longer want to use a dependency, remember
 
 import "deps/phoenix_html/web/static/js/phoenix_html"
-import socket from "./chat"
+import "./init"
+import "./controllers/chat_controller"

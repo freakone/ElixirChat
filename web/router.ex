@@ -13,6 +13,11 @@ defmodule ElixirChat.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", ElixirChat do
+    pipe_through :browser
+    get "/current_user", ApiController, :current_user
+  end
+
   scope "/", ElixirChat do
     pipe_through :browser # Use the default browser stack
 
@@ -21,10 +26,9 @@ defmodule ElixirChat.Router do
 
   scope "/auth", ElixirChat do
     pipe_through :browser
-
+    get "/signout", AuthController, :logout
     get "/:provider", AuthController, :index
     get "/:provider/callback", AuthController, :callback
-    get "/logout", AuthController, :logout
   end
 
 end

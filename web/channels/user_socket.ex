@@ -19,8 +19,14 @@ defmodule ElixirChat.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket) do
+    case Phoenix.Token.verify(socket, "user", token, max_age: 1209600) do
+      {:ok, user_id} ->
+        socket = assign(socket, :user_id, ElixirChat.Repo.get!(ElixirChat.User, user_id).id)
+        {:ok, socket}
+      {:error, _} ->
+        :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -33,5 +39,5 @@ defmodule ElixirChat.UserSocket do
   #     ElixirChat.Endpoint.broadcast("users_socket:" <> user.id, "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(_socket), do: "users_socket:#{_socket.assigns.user_id}"
 end

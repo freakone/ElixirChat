@@ -3,6 +3,7 @@ html lang="en"  ng-app="chat"
   head
     meta charset="utf-8"
     meta content="width=device-width, initial-scale=1" name="viewport"
+    meta name="channel_token" content="#{Phoenix.Token.sign(@conn, "user", current_user(@conn).id)}"
     title Elixir + Phoenix + Angular Sample
     link rel="stylesheet" href=static_path(@conn,"/css/app.css")
   body
@@ -15,12 +16,11 @@ html lang="en"  ng-app="chat"
           li        
             img src="#{current_user(@conn).image}"
           li
-            a href="/auth/singout" Signed in as #{current_user(@conn).name}
+            a href="/auth/signout" Signed in as #{current_user(@conn).name}
         - else
           li 
             a href="/auth/facebook" Login with Facebook
-
-
+    = render "flash.html", conn: @conn
     = @inner
     script src=static_path(@conn,"/js/app.js")
     script require("web/static/js/app")
