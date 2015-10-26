@@ -3,7 +3,6 @@ html lang="en"  ng-app="chat"
   head
     meta charset="utf-8"
     meta content="width=device-width, initial-scale=1" name="viewport"
-    meta name="channel_token" content="#{Phoenix.Token.sign(@conn, "user", current_user(@conn).id)}"
     title Elixir + Phoenix + Angular Sample
     link rel="stylesheet" href=static_path(@conn,"/css/app.css")
   body
