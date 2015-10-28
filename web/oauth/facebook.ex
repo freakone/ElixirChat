@@ -11,9 +11,9 @@ defmodule Facebook do
   def client do
     OAuth2.Client.new([
       strategy: __MODULE__,
-      client_id: "438582729682814",#System.get_env("CLIENT_ID"),
-      client_secret: "bfceed8f31a3f8c5a9779dc15d682a95",#System.get_env("CLIENT_SECRET"),
-      redirect_uri: "http://lvh.me:4000/auth/facebook/callback",#System.get_env("REDIRECT_URI"),
+      client_id: System.get_env("CLIENT_ID"),
+      client_secret: System.get_env("CLIENT_SECRET"),
+      redirect_uri: System.get_env("REDIRECT_URI"),
       site: "https://graph.facebook.com",
       authorize_url: "https://www.facebook.com/dialog/oauth",
       token_url: "https://graph.facebook.com/v2.3/oauth/access_token"
