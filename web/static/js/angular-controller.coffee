@@ -2,7 +2,7 @@ require("angular")
 require("angular-scroll")
 chat = angular.module 'chat', ['duScroll']
 
-chat.service 'ChatService', ($http) ->
+angular.module("chat").service 'ChatService', ($http) ->
   base = "/api"
 
   index: ->
@@ -11,7 +11,7 @@ chat.service 'ChatService', ($http) ->
   current_user: ->
     $http.get("#{base}/current_user")
 
-chat.controller "ChatController", ($scope, ChatService) ->
+angular.module("chat").controller "ChatController", ($scope, ChatService) ->
     $scope.msg = ""
     $scope.messages = {}
     $scope.users = {}
