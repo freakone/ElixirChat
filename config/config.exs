@@ -15,7 +15,8 @@ config :elixir_chat, ElixirChat.Repo,
 
 # Configures the endpoint
 config :elixir_chat, ElixirChat.Endpoint,
-  url: [host: "localhost"],
+  url: [scheme: "https", host: "elixirphoenixlivechat.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   root: Path.dirname(__DIR__),
   secret_key_base: "+GrLlezPLAExi7quEBoBgsQ3+v5VDcehqVyRalkdzp/+rM5nyziZ/ii7NVIudtqf",
   render_errors: [accepts: ~w(html json)],
