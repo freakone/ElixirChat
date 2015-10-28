@@ -7,23 +7,24 @@ div ng-controller="ChatController"
             h5.media-heading
               | {{ user.name }}
 
-      .col-lg-8.message-wrap
-        .msg-wrap
+      .col-lg-8.message-wrap du-scroll-container=""
+        #messages-container.msg-wrap
           .media.msg ng-repeat="message in messages"
             .pull-left
-              img class="media-object" alt="64x64" style="width: 32px; height: 32px;" src=""
+              img class="media-object" alt="64x64" style="width: 32px; height: 32px;" src="{{message.user_image}}"
             .media-body
               small.pull-right.time
                 i.fa.fa-clock-o
-                | 11:11
+                | {{message.date | date: "HH:mm MM/dd/yy"}}
               h5.media-heading 
-                | {{ message.user_id }}
+                | {{ message.user_name }}
               small.col-lg-10 
                 | {{ message.content }}
+          #msg-bottom
 
   .footer
     .container
-      .col-sm-2 
-        input.form-control value="@#{current_user(@conn).name}" disabled="disabled"
-      .col-sm-10
+      .col-sm-3 
+        input.form-control.text-center value="@#{current_user(@conn).name}" disabled="disabled"
+      .col-sm-9
         input#message.form-control type="text" ng-model="msg" ng-keypress="keyPress($event)" placeholder="Type your message"

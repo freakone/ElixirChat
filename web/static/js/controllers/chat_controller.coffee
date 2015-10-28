@@ -1,12 +1,16 @@
 require("angular")
 angular.module('chat').controller "ChatController", ($scope, ChatService) ->
-    $scope.msg = "blah"
+    $scope.msg = ""
     $scope.messages = {}
+    $scope.users = {}
 
     phoenix = require "deps/phoenix/web/static/js/phoenix"
     ChatService.current_user().then (e) ->    
         socket = new phoenix.Socket("/socket", {params: e.data} )
         socket.connect()
+
+        container = angular.element document.getElementById 'messages-container' 
+        bottom = angular.element document.getElementById 'msg-bottom' 
 
         channel = socket.channel("chat", {})
         join = channel.join()
@@ -19,7 +23,12 @@ angular.module('chat').controller "ChatController", ($scope, ChatService) ->
             $scope.users = usr.users
             $scope.messages = usr.messages
             $scope.$apply()
-            console.log usr
+            container.scrollTo bottom, 0, 500
+
+        channel.on "msg", (msg) ->
+            $scope.messages.push msg
+            $scope.$apply()
+            container.scrollTo bottom, 0, 500
 
         $scope.keyPress = (event) ->
             if event.which is 13
