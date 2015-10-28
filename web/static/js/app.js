@@ -12,5 +12,4 @@
 // If you no longer want to use a dependency, remember
 
 import "deps/phoenix_html/web/static/js/phoenix_html"
-import "./init"
-import "./controllers/chat_controller"
+import "./angular"

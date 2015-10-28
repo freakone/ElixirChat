@@ -40,5 +40,5 @@ defmodule ElixirChat.UserSocket do
   #     ElixirChat.Endpoint.broadcast("users_socket:" <> user.id, "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: "users_socket:#{_socket.assigns.user_id}"
+  def id(socket), do: "users_socket:#{socket.assigns.user_id}"
 end
