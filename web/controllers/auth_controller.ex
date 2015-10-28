@@ -21,6 +21,12 @@ defmodule ElixirChat.AuthController do
     redirect conn, external: authorize_url!(provider)
   end
 
+  def callback(conn, %{"provider" => provider, "error_code" => code}) do
+    conn
+    |> put_flash(:error, "Login failed")
+    |> redirect(to: "/")
+  end
+
   def callback(conn, %{"provider" => provider, "code" => code}) do
     token = get_token!(provider, code)
     user = get_user!(provider, token)
@@ -33,7 +39,7 @@ defmodule ElixirChat.AuthController do
         |> redirect(to: "/")
     else
         conn
-        |> put_flash(:error, "You are not able to log in")
+        |> put_flash(:error, "Unknown login error")
         |> redirect(to: "/")
     end
 

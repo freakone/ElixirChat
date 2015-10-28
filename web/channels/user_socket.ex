@@ -22,7 +22,7 @@ defmodule ElixirChat.UserSocket do
   def connect(%{"token" => token}, socket) do
     case Phoenix.Token.verify(socket, "user", token, max_age: 1209600) do
       {:ok, user_id} ->
-        socket = assign(socket, :user_id, ElixirChat.Repo.get!(ElixirChat.User, user_id).id)
+        socket = assign(socket, :user_id, user_id)
         {:ok, socket}
       {:error, _} ->
         :error
