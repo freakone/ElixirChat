@@ -19,9 +19,12 @@ angular.module('chat').controller "ChatController", ($scope, ChatService) ->
         join.receive "error", (resp) -> 
             console.log "some error", resp
 
-        channel.on "init", (usr) ->
-            $scope.users = usr.users
-            $scope.messages = usr.messages
+        channel.on "users", (e) ->
+            $scope.users = e.users
+            $scope.$apply()
+
+        channel.on "messages", (e) ->
+            $scope.messages = e.messages
             $scope.$apply()
             container.scrollTo bottom, 0, 500
 
@@ -32,5 +35,5 @@ angular.module('chat').controller "ChatController", ($scope, ChatService) ->
 
         $scope.keyPress = (event) ->
             if event.which is 13
-                channel.push("msg",  {content: $scope.msg})
+                channel.push "msg",  {content: $scope.msg}
                 $scope.msg = ""

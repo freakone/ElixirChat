@@ -5,7 +5,8 @@ div ng-controller="ChatController"
         .media.conversation ng-repeat="user in users"
           .media-body
             h5.media-heading
-              | {{ user.name }}
+              span.label.label-success ng-show="user.online" online
+              | &nbsp;&nbsp;{{ user.name }}
 
       .col-lg-8.message-wrap du-scroll-container=""
         #messages-container.msg-wrap

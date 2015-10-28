@@ -11,6 +11,7 @@ defmodule ElixirChat.User do
     field :oauth_token, :string
     field :oauth_expires_at, :integer
     field :provider, :string
+    field :online, :boolean
     has_many :messages, ElixirChat.Message
 
     timestamps
