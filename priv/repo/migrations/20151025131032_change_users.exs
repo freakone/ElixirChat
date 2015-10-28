@@ -5,7 +5,7 @@ defmodule ElixirChat.Repo.Migrations.ChangeUsers do
   	alter table(:users) do
       add :provider, :string
       add :oauth_token, :string
-      add :oauth_expires_at, :string
+      add :oauth_expires_at, :integer
     end
 
     rename table(:users), :fb_id, to: :uid
