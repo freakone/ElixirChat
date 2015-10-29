@@ -11,13 +11,13 @@ chat.service 'ChatService', ($http) ->
   current_user: ->
     $http.get("#{base}/current_user")
 
-chat.controller "ChatController", ($scope, $http) ->
+chat.controller "ChatController", ($scope, ChatService) ->
     $scope.msg = ""
     $scope.messages = {}
     $scope.users = {}
 
     phoenix = require "deps/phoenix/web/static/js/phoenix"
-    $http.get("/api/current_user").then (e) ->    
+    ChatService.current_user().then (e) ->    
         socket = new phoenix.Socket("/socket", {params: e.data} )
         socket.connect()
 
