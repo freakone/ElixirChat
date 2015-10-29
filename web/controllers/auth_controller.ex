@@ -4,8 +4,7 @@ defmodule ElixirChat.AuthController do
   alias ElixirChat.User
 
   def current_user(conn) do
-    id = Plug.Conn.get_session(conn, :current_user)
-    if id, do: Repo.get(User, id)
+    Plug.Conn.get_session(conn, :current_user)
   end
 
   def logged_in?(conn), do: !!current_user(conn)
@@ -33,9 +32,10 @@ defmodule ElixirChat.AuthController do
     
     if AccessToken.expires?(token) do
         user_db = User.oauth user, token, provider
-
+        user_db = %{id: user_db.model.id, name: user_db.model.name, image: user_db.model.image}
+        
         conn
-        |> put_session(:current_user, user_db.model.id)
+        |> put_session(:current_user, user_db)
         |> redirect(to: "/")
     else
         conn

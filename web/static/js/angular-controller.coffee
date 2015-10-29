@@ -2,7 +2,7 @@ require("angular")
 require("angular-scroll")
 chat = angular.module 'chat', ['duScroll']
 
-angular.module("chat").service 'ChatService', ($http) ->
+chat.service 'ChatService', ($http) ->
   base = "/api"
 
   index: ->
@@ -11,13 +11,13 @@ angular.module("chat").service 'ChatService', ($http) ->
   current_user: ->
     $http.get("#{base}/current_user")
 
-angular.module("chat").controller "ChatController", ($scope, ChatService) ->
+chat.controller "ChatController", ($scope, $http) ->
     $scope.msg = ""
     $scope.messages = {}
     $scope.users = {}
 
     phoenix = require "deps/phoenix/web/static/js/phoenix"
-    ChatService.current_user().then (e) ->    
+    $http.get("/api/current_user").then (e) ->    
         socket = new phoenix.Socket("/socket", {params: e.data} )
         socket.connect()
 
