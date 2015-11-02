@@ -9,7 +9,7 @@ defmodule ElixirChat.ChatChannel do
 
   def update_status(state, socket) do
     user = Repo.get!(User, socket.assigns[:user_id])
-    user = %{user | online: state}
+    user = %{user | online: (user.online || 0) + (if state, do: 1, else: -1)}
     Repo.update user
   end
 
@@ -34,6 +34,7 @@ defmodule ElixirChat.ChatChannel do
     messages = Message
     |> join(:inner, [m], u in User, u.id == m.user_id) 
     |> select([m, u], %{content: m.content, user_name: u.name, user_id: u.id, id: m.id, date: m.inserted_at, user_image: u.image})
+    |> limit([m], 100)
     |> Repo.all
 
 		push socket, "messages", %{messages: messages}
