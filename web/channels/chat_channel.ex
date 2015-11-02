@@ -34,8 +34,10 @@ defmodule ElixirChat.ChatChannel do
     messages = Message
     |> join(:inner, [m], u in User, u.id == m.user_id) 
     |> select([m, u], %{content: m.content, user_name: u.name, user_id: u.id, id: m.id, date: m.inserted_at, user_image: u.image})
+    |> order_by([m], desc: m.id)
     |> limit([m], 100)
     |> Repo.all
+    |> Enum.reverse
 
 		push socket, "messages", %{messages: messages}
 		{:noreply, socket}
