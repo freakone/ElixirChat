@@ -32,10 +32,24 @@ defmodule ElixirChat.User do
 
     if user_db do
       user_db = User.changeset(user_db, user_map)
-      if user_db.valid?, do: Repo.update(user_db)
+      if user_db.valid? do
+        case Repo.update(user_db) do
+          {:ok, model}  ->
+            user_db = model
+          {:error, changeset} ->  
+            user_db = changeset.errors
+        end
+      end
     else
       user_db = User.changeset(%User{}, user_map)
-      if user_db.valid?, do: Repo.insert(user_db)
+      if user_db.valid? do
+        case Repo.insert(user_db) do
+          {:ok, model}  ->
+            user_db = model
+          {:error, changeset} ->  
+            user_db = changeset.errors
+        end
+      end
     end   
 
     user_db

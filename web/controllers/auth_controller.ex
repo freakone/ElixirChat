@@ -32,7 +32,7 @@ defmodule ElixirChat.AuthController do
     
     if AccessToken.expires?(token) do
         user_db = User.oauth user, token, provider
-        user_db = %{id: user_db.model.id, name: user_db.model.name, image: user_db.model.image}
+        user_db = %{id: user_db.id, name: user_db.name, image: user_db.image}
         
         conn
         |> put_session(:current_user, user_db)
